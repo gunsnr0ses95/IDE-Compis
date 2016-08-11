@@ -11,9 +11,8 @@ Program
                 Id: y
             Read: y
     If
-        Op: TKN_LTHAN<
+        Op: TKN_EQUAL==
             Id: x
-            Id: z
                     Assign to: x
                 Op: TKN_ADD+
                     Id: x

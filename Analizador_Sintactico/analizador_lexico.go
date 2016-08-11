@@ -30,6 +30,8 @@ const (
 	TKN_NOT
 	TKN_AND
 	TKN_OR
+	TKN_TRUE
+	TKN_FALSE
 
 	//Simbolos especiales
 	TKN_ADD
@@ -115,6 +117,8 @@ var ReserveWords = []Token{
 	Token{TKN_INT, "int", 0},
 	Token{TKN_BOOL, "bool", 0},
 	Token{TKN_PROGRAM, "program", 0},
+	Token{TKN_TRUE, "true", 0},
+	Token{TKN_FALSE, "false", 0},
 }
 
 var nline = 0
@@ -493,6 +497,10 @@ func GetTknString(tkn token_types) string {
 		return "TKN_MLCOMMENT"
 	case TKN_ID:
 		return "TKN_ID"
+	case TKN_TRUE:
+		return "TKN_TRUE"
+	case TKN_FALSE:
+		return "TKN_FALSE"
 	case TKN_NUM:
 		return "TKN_NUM"
 	case TKN_ERROR:

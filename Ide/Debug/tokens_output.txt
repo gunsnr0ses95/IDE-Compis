@@ -29,8 +29,8 @@ y		6		TKN_ID
 if		8		TKN_IF
 (		8		TKN_LPARENT
 x		8		TKN_ID
-<		8		TKN_LTHAN
-z		8		TKN_ID
+==		8		TKN_EQUAL
+true		8		TKN_TRUE
 )		8		TKN_RPARENT
 {		8		TKN_LBRACE
 x		9		TKN_ID

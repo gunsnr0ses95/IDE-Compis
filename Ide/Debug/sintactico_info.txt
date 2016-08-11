@@ -2,4 +2,5 @@
 >>> Error sintactico en la linea 2: token inesperado -> TKN_ERROR '_' se esperaba-> TKN_SEMICOLON
 
 >>> Error sintactico en la linea 2: Declaración erronea
+>>> Error sintactico en la linea 8: token inesperado -> 
 >>> Error sintactico en la linea 10: token inesperado -> TKN_WRITE 'write' se esperaba-> TKN_SEMICOLON
