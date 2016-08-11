@@ -1,0 +1,15 @@
+program
+if
+else
+fi
+do
+until
+while
+read
+write
+float
+int
+bool
+not
+and
+or

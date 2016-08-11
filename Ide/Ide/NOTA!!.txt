@@ -1,0 +1,1 @@
+Para realizar el IDE se uso el programa visual studio 

@@ -1,0 +1,25 @@
+Program
+    Id: x-Int
+        Id: y-Int
+        While
+        Op: TKN_LTHAN<
+            Id: x
+            Const: 10
+                    Write
+                Id: x
+            Write
+                Id: y
+            Read: y
+    If
+        Op: TKN_LTHAN<
+            Id: x
+            Id: z
+                    Assign to: x
+                Op: TKN_ADD+
+                    Id: x
+                    Const: 10
+            Write
+                Id: x
+            Read: z
+                    Write
+                Id: nada

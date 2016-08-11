@@ -1,0 +1,27 @@
+Program
+    Id: x-Int
+        Id: y-Int
+    Assign to: x
+        Const: 0
+    Assign to: y
+        Const: 4
+    Repeat
+                    If
+                Op: TKN_LTHAN<
+                    Id: x
+                    Id: y
+                                    Assign to: y
+                        Op: TKN_MINUS-
+                            Id: y
+                            Const: 1
+        Op: TKN_GETHAN>=
+            Id: y
+            Const: 0
+    If
+        Op: TKN_EQUAL==
+            Id: x
+            Const: 0
+                    Assign to: y
+                Const: 2
+            Assign to: x
+                Const: 3

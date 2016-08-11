@@ -1,0 +1,14 @@
+program{
+	int i,a1@,d1a;
+	float 1d;
+	bool aab1c;
+	d=1.0;
+	i=3.1416;
+	if( a<0){
+		write a+1;
+	}else{
+		read y;
+		write a;
+	}
+	fi
+}/*hola

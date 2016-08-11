@@ -1,0 +1,2 @@
+Error en la linea 2 columna 10: '@'
+Comentario de varias lineas no a sido cerrado
