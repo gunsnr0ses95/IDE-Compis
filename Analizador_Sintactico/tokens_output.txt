@@ -4,14 +4,10 @@ int		2		TKN_INT
 i		2		TKN_ID
 ,		2		TKN_COMMA
 a1		2		TKN_ID
-@		2		TKN_ERROR
 ,		2		TKN_COMMA
-d		2		TKN_ID
-_		2		TKN_ERROR
-a		2		TKN_ID
+da		2		TKN_ID
 ;		2		TKN_SEMICOLON
 float		3		TKN_FLOAT
-1		3		TKN_NUM
 d		3		TKN_ID
 ;		3		TKN_SEMICOLON
 bool		4		TKN_BOOL

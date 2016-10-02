@@ -1,0 +1,18 @@
+Program
+    Id: i-Int
+        Id: a1-Int
+            Id: da-Int
+    Id: d-Float
+    Id: aab1c-Bool
+    Assign to: d
+    Assign to: i
+    If
+        Op: TKN_EQUAL==
+            Id: a
+                    Write
+                Op: TKN_ADD+
+                    Id: a
+                    Const: 1
+                    Read: x
+            Write
+                Id: a

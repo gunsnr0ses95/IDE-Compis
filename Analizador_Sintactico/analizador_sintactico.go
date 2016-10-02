@@ -53,12 +53,19 @@ type Kind struct {
 	exp  expKind
 }
 type TreeNode struct {
-	hijo     [3]*TreeNode
-	hermano  *TreeNode
-	nodekind nodeKind
-	token    *Token
-	tipo     expType /* for type checking of exps */
-	kind     Kind
+	hijo           [3]*TreeNode
+	hermano        *TreeNode
+	nodekind       nodeKind
+	token          *Token
+	tipo           expType /* for type checking of exps */
+	kind           Kind
+	varType        token_types
+	valInt         int
+	valFloat       float32
+	valBool        bool
+	typeError      bool
+	undeclareError bool
+	isIntType      bool
 }
 
 func newStmtNode(kind stmtKind) *TreeNode {

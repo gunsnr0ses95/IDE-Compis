@@ -1,3 +1,1 @@
-Line:2,10 Error:Character @ does not match any token.
-Line:2,13 Error:Character _ does not match any token.
 Line:5,5 Error:Character ; does not match any token.
