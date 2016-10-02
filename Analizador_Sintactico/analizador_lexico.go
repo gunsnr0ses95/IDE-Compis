@@ -59,6 +59,7 @@ const (
 
 	TKN_ID
 	TKN_NUM
+	TKN_NUM_FLOAT
 
 	//Error
 	TKN_ERROR
@@ -72,6 +73,8 @@ const (
 	IN_START State = 1 + iota
 	IN_ID
 	IN_NUM
+	IN_NUM2
+	IN_NUMFLOAT
 	IN_LPARENT
 	IN_RPARENT
 	IN_SEMICOLON
@@ -338,18 +341,38 @@ func GetToken(readerFile *bufio.Reader, writer *os.File) *Token {
 			{
 				c = GetChar(readerFile)
 				token.lexema += string(c)
-				if !unicode.IsDigit(c) {
-					if c == '.' && !decimal_point_flag {
-						decimal_point_flag = true
-						break
-					}
-					decimal_point_flag = false
+				if !unicode.IsDigit(c) && c != '.' {
 					token.tokenval = TKN_NUM
 					state = IN_DONE
 					token.lexema = string(token.lexema[0 : len(token.lexema)-1])
 					UnGetChar()
 				}
+				if c == '.' {
+					state = IN_NUM2
+				}
 			}
+		case IN_NUM2:
+			c = GetChar(readerFile)
+			token.lexema += string(c)
+			if !unicode.IsDigit(c) {
+				token.tokenval = TKN_ERROR
+				state = IN_DONE
+				token.lexema = string(token.lexema[0 : len(token.lexema)-1])
+				UnGetChar()
+			} else {
+				state = IN_NUMFLOAT
+			}
+
+		case IN_NUMFLOAT:
+			c = GetChar(readerFile)
+			token.lexema += string(c)
+			if !unicode.IsDigit(c) {
+				token.tokenval = TKN_NUM_FLOAT
+				state = IN_DONE
+				token.lexema = string(token.lexema[0 : len(token.lexema)-1])
+				UnGetChar()
+			}
+
 		case IN_LESS:
 			{
 				c = GetChar(readerFile)
@@ -503,6 +526,8 @@ func GetTknString(tkn token_types) string {
 		return "TKN_FALSE"
 	case TKN_NUM:
 		return "TKN_NUM"
+	case TKN_NUM_FLOAT:
+		return "TKN_NUM_FLOAT"
 	case TKN_ERROR:
 		return "TKN_ERROR"
 	case TKN_EOF:
