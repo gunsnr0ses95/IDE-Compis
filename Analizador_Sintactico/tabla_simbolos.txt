@@ -1,0 +1,7 @@
+Nombre	Loc. Mem	Tipo		Valor		No Linea
+a						2			Float		3.11		3, 7, 7
+b						3			Float		0				3, 8
+c						4			Float		0				3
+x						0			Int			0				2, 5, 10, 5
+y						1			Int			0				2, 6, 10, 11, 11, 13
+band				5			Bool		true		4

@@ -1,0 +1,2 @@
+Error: Tipos diferentes. Variables y int=0 float=4.8
+Error: Tipos diferentes. Variables b int=0 float=0

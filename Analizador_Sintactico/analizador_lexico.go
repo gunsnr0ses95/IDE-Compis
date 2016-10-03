@@ -577,6 +577,8 @@ func main() {
 		reset()
 		var arbol *TreeNode
 		arbol = sintactico()
+		semantico(arbol.hijo[1])
+		printSymTab()
 		fmt.Println("Error aqui")
 		printTree(arbol)
 	}

@@ -79,6 +79,10 @@ func newStmtNode(kind stmtKind) *TreeNode {
 	t.hermano = nil
 	t.nodekind = STMTK
 	t.kind.stmt = kind
+	/*t.valBool = false
+	t.typeError = false
+	t.undeclaredError = false
+	t.isIntType = false*/
 	return t
 }
 
@@ -92,6 +96,10 @@ func newExpNode(kind expKind) *TreeNode {
 	t.nodekind = EXPK
 	t.kind.exp = kind
 	t.tipo = 0
+	/*t.valBool = false
+	t.typeError = false
+	t.undeclaredError = false
+	t.isIntType = false*/
 	return t
 }
 
@@ -231,8 +239,19 @@ func factor() *TreeNode {
 		t = newExpNode(CONSTK)
 		if (t != nil) && (token.tokenval == TKN_NUM) {
 			t.token = token
+			t.valInt, _ = strconv.Atoi(token.lexema)
+			t.isIntType = true
 		}
 		match(TKN_NUM)
+
+	case TKN_NUM_FLOAT:
+		t = newExpNode(CONSTK)
+		if (t != nil) && (token.tokenval == TKN_NUM_FLOAT) {
+			t.token = token
+			t.valFloat, _ = strconv.ParseFloat(token.lexema, 64)
+			t.isIntType = false
+		}
+		match(TKN_NUM_FLOAT)
 
 	case TKN_ID:
 		t = newExpNode(IDK)

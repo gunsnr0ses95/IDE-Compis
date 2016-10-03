@@ -1,18 +1,27 @@
 Program
-    Id: i-Int
-        Id: a1-Int
-            Id: da-Int
-    Id: d-Float
-    Id: aab1c-Bool
-    Assign to: d
-    Assign to: i
-    If
-        Op: TKN_EQUAL==
-            Id: a
-                    Write
-                Op: TKN_ADD+
-                    Id: a
-                    Const: 1
-                    Read: x
-            Write
-                Id: a
+    Id: x-Int
+        Id: y-Int
+    Id: a-Float
+        Id: b-Float
+            Id: c-Float
+    Id: band-Bool
+    Assign to: x
+        Const: 0
+    Assign to: y
+        Const: 4.8
+    Assign to: a
+        Const: 3.11
+    Assign to: b
+        Const: 0
+    Repeat
+                    If
+                Op: TKN_LTHAN<
+                    Id: x
+                    Id: y
+                                    Assign to: y
+                        Op: TKN_MINUS-
+                            Id: y
+                            Const: 1
+        Op: TKN_GETHAN>=
+            Id: y
+            Const: 0

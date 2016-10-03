@@ -1,4 +1,0 @@
-
->>> Error sintactico en la linea 5: token inesperado -> 
->>> Error sintactico en la linea 6: token inesperado -> 
->>> Error sintactico en la linea 7: token inesperado -> 

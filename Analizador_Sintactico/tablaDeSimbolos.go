@@ -65,7 +65,7 @@ func st_insert(token *Token, lineno int, valI int, valF float64, valB bool, tipo
 	for l != nil && strings.Compare(token.lexema, l.token.lexema) != 0 {
 		l = l.next
 	}
-	if l != nil { //Variable que no esta en la tabla
+	if l == nil { //Variable que no esta en la tabla
 		list := newLineListRec(lineno)
 		l = newBucketListRec(token, hashTable[h], list, valI, valF, valB, tipo, haveVal, memloc)
 		hashTable[h] = l
@@ -101,14 +101,23 @@ func st_lookup(name string) *BucketListRec {
 	}
 }
 func printSymTab() {
-	writerSym.WriteString("Nombre\tLoc. Mem\tTipo\tValor\tNo Linea\n")
+	writerSym.WriteString("Nombre\tLoc. Mem\tTipo\t\tValor\t\tNo Linea\n")
 	strWriter := ""
 	for i := 0; i < SIZE; i++ {
 		if hashTable[i] != nil {
 			l := hashTable[i]
 			for l != nil {
 				t := l.lines
-				writerSym.WriteString(l.token.lexema + "\t" + strconv.Itoa(l.memloc) + "\t" + l.tipo + "\t")
+				if len(l.token.lexema) > 2 {
+					writerSym.WriteString(l.token.lexema + "\t\t\t\t" + strconv.Itoa(l.memloc) + "\t\t\t" + l.tipo)
+				} else {
+					writerSym.WriteString(l.token.lexema + "\t\t\t\t\t\t" + strconv.Itoa(l.memloc) + "\t\t\t" + l.tipo)
+				}
+				if len(l.tipo) < 4 {
+					writerSym.WriteString("\t\t\t")
+				} else {
+					writerSym.WriteString("\t\t")
+				}
 				switch l.tipo {
 				case "Int":
 					strWriter = strconv.Itoa(l.valI)
@@ -117,7 +126,12 @@ func printSymTab() {
 				case "Bool":
 					strWriter = strconv.FormatBool(l.valB)
 				}
-				writerSym.WriteString(strWriter + "\t")
+				writerSym.WriteString(strWriter)
+				if len(strWriter) < 3 {
+					writerSym.WriteString("\t\t\t\t")
+				} else {
+					writerSym.WriteString("\t\t")
+				}
 				for t != nil {
 					writerSym.WriteString(strconv.Itoa(t.lineno))
 					t = t.next

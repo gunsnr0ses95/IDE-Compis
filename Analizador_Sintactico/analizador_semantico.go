@@ -51,7 +51,7 @@ func inStmt(tree *TreeNode) {
 			tipoActual = l.tipo
 			semantico(tree.hijo[0])
 			//Linea no copiada
-			if !tree.hijo[0].typeError || tree.hijo[0].undeclaredError {
+			if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
 				if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) {
 					st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
 					memloc++
