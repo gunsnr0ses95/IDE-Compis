@@ -1,2 +1,3 @@
+Variable no declarada: z No. Linea: 9
 Error: Tipos diferentes. Variables y int=0 float=4.8
 Error: Tipos diferentes. Variables b int=0 float=0

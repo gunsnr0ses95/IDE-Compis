@@ -6,6 +6,8 @@ x=0; // comentario 1
 y=4.8; /* comentario 2 */
 a = 3.11;
 b = 0;
+z = a;
+a = 4.17;
 do {
 if(x<y) {
 y=y-1;

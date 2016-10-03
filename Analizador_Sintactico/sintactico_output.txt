@@ -13,6 +13,10 @@ Program
         Const: 3.11
     Assign to: b
         Const: 0
+    Assign to: z
+        Id: a
+    Assign to: a
+        Const: 4.17
     Repeat
                     If
                 Op: TKN_LTHAN<

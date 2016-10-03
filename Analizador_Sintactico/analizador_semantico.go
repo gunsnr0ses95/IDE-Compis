@@ -48,22 +48,27 @@ func inStmt(tree *TreeNode) {
 	case ASIGNACION:
 		if !inBlock {
 			l = st_lookup(tree.token.lexema)
-			tipoActual = l.tipo
-			semantico(tree.hijo[0])
-			//Linea no copiada
-			if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
-				if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) {
-					st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
-					memloc++
-					tree.valInt = tree.hijo[0].valInt
-					tree.valFloat = tree.hijo[0].valFloat
-				} else {
-					writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
-					tree.valInt = l.valI
-					tree.valFloat = l.valF
+			if l != nil {
+				tipoActual = l.tipo
+				semantico(tree.hijo[0])
+				//Linea no copiada
+				if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
+					if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) {
+						st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
+						memloc++
+						tree.valInt = tree.hijo[0].valInt
+						tree.valFloat = tree.hijo[0].valFloat
+					} else {
+						writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
+						tree.valInt = l.valI
+						tree.valFloat = l.valF
 
+					}
 				}
-			}
+			} /*else {
+				tree.undeclaredError = true
+				writerSymInfo.WriteString("Variable no declarada:" + tree.token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
+			}*/
 		}
 	case READ:
 		l = st_lookup(tree.token.lexema)
