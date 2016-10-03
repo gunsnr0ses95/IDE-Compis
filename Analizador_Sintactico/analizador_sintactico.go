@@ -259,6 +259,19 @@ func factor() *TreeNode {
 			t.token = token
 		}
 		match(TKN_ID)
+	case TKN_TRUE:
+		t = newExpNode(IDK)
+		if t != nil && token.tokenval == TKN_TRUE {
+			t.token = token
+		}
+		match(TKN_TRUE)
+
+	case TKN_FALSE:
+		t = newExpNode(IDK)
+		if t != nil && token.tokenval == TKN_FALSE {
+			t.token = token
+		}
+		match(TKN_FALSE)
 
 	case TKN_LPARENT:
 		match(TKN_LPARENT)
