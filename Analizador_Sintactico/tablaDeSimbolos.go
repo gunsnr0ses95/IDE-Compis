@@ -13,7 +13,7 @@ var hashTable [211]*BucketListRec
 //********************************************************
 
 type BucketListRec struct {
-	token   Token
+	token   *Token
 	lines   *LineListRec
 	valI    int
 	valF    float64
@@ -37,7 +37,7 @@ func newLineListRec(lineno int) *LineListRec {
 	return llr
 }
 
-func newBucketListRec(token Token, next *BucketListRec, lines *LineListRec, valI int, valF float64, valB bool, tipo string, haveVal bool, memloc int) *BucketListRec {
+func newBucketListRec(token *Token, next *BucketListRec, lines *LineListRec, valI int, valF float64, valB bool, tipo string, haveVal bool, memloc int) *BucketListRec {
 	var blr *BucketListRec
 	blr = new(BucketListRec)
 	blr.token = token
@@ -59,7 +59,7 @@ func hash(key string) int {
 	return temp
 }
 
-func st_insert(token Token, lineno int, valI int, valF float64, valB bool, tipo string, isDec bool, haveVal bool, memloc int) {
+func st_insert(token *Token, lineno int, valI int, valF float64, valB bool, tipo string, isDec bool, haveVal bool, memloc int) {
 	h := hash(token.lexema)
 	l := hashTable[h]
 	for l != nil && strings.Compare(token.lexema, l.token.lexema) != 0 {

@@ -17,6 +17,8 @@ var token *Token
 var tabno = -1
 var currentValType expType
 var erroresW, _ = os.Create("sintactico_info.txt")
+var isDecl = false
+var memloc = 0
 
 /*-------------------*/
 
@@ -53,19 +55,19 @@ type Kind struct {
 	exp  expKind
 }
 type TreeNode struct {
-	hijo           [3]*TreeNode
-	hermano        *TreeNode
-	nodekind       nodeKind
-	token          *Token
-	tipo           expType /* for type checking of exps */
-	kind           Kind
-	varType        token_types
-	valInt         int
-	valFloat       float32
-	valBool        bool
-	typeError      bool
-	undeclareError bool
-	isIntType      bool
+	hijo            [3]*TreeNode
+	hermano         *TreeNode
+	nodekind        nodeKind
+	token           *Token
+	tipo            expType /* for type checking of exps */
+	kind            Kind
+	varType         token_types
+	valInt          int
+	valFloat        float64
+	valBool         bool
+	typeError       bool
+	undeclaredError bool
+	isIntType       bool
 }
 
 func newStmtNode(kind stmtKind) *TreeNode {
@@ -103,6 +105,29 @@ func syntaxError(message string) {
 
 func match(expected token_types) {
 	if token.tokenval == expected {
+		if token.tokenval == TKN_ID {
+			if isDecl {
+				tipo := ""
+				if currentValType == INT {
+					tipo = "Int"
+				} else if currentValType == FLOAT {
+					tipo = "Float"
+				} else {
+					tipo = "Bool"
+				}
+				st_insert(token, token.nline, 0, 0, true, tipo, true, false, memloc)
+				memloc++
+			} else {
+				l := st_lookup(token.lexema)
+				if l != nil {
+					st_insert(token, token.nline, 0, 0, true, "", true, false, memloc)
+					memloc++
+				} else {
+					writerSymInfo.WriteString("Variable no declarada: " + token.lexema + " No. Linea: " + strconv.Itoa(token.nline) + "\n")
+				}
+			} // fin if isDecl
+
+		} // fin if TKN_ID
 		token = GetToken(reader, writer)
 	} else {
 		syntaxError("token inesperado -> ")
@@ -398,6 +423,7 @@ func lista_declaracion() *TreeNode {
 func declaracion() *TreeNode {
 	var t *TreeNode
 	t = nil
+	isDecl = true
 	if token.tokenval == TKN_INT || token.tokenval == TKN_FLOAT || token.tokenval == TKN_BOOL {
 		switch token.tokenval {
 		case TKN_INT:
@@ -410,6 +436,7 @@ func declaracion() *TreeNode {
 		match(token.tokenval)
 	}
 	t = lista_id()
+	isDecl = false
 	return t
 }
 
