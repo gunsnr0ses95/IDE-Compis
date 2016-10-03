@@ -93,7 +93,6 @@ const (
 	IN_MLCOMMENT
 	IN_MLCOMMENTERROR
 	IN_END_OF_MLCOMMENT
-	IN_NUM_OR_OPERATOR
 	IN_DEC_POIN
 	IN_EXPONENTIAL
 )
@@ -235,11 +234,11 @@ func GetToken(readerFile *bufio.Reader, writer *os.File) *Token {
 					token.lexema += string(c)
 				} else if c == '+' {
 					token.tokenval = TKN_ADD
-					state = IN_NUM_OR_OPERATOR
+					state = IN_DONE
 					token.lexema += string(c)
 				} else if c == '-' {
 					token.tokenval = TKN_MINUS
-					state = IN_NUM_OR_OPERATOR
+					state = IN_DONE
 					token.lexema += string(c)
 				} else if c == '*' {
 					token.tokenval = TKN_PRODUCT
@@ -326,18 +325,6 @@ func GetToken(readerFile *bufio.Reader, writer *os.File) *Token {
 			{
 				writer.WriteString("The multiline comment has not been closed\n")
 				state = IN_DONE
-			}
-		case IN_NUM_OR_OPERATOR:
-			{
-				c = GetChar(readerFile)
-				previous_char_to_symbol := buffer[ncol-3]
-				if unicode.IsLetter(rune(previous_char_to_symbol)) || unicode.IsDigit(rune(previous_char_to_symbol)) {
-					UnGetChar()
-					state = IN_DONE
-				} else {
-					token.lexema += string(c)
-					state = IN_NUM
-				}
 			}
 		case IN_NUM:
 			{
