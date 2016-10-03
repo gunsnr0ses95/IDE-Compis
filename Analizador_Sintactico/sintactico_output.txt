@@ -9,6 +9,8 @@ Program
         Const: 0
     Assign to: y
         Const: 4.8
+    Assign to: band
+        Const: true
     Assign to: a
         Const: 3.11
     Assign to: b
@@ -17,6 +19,10 @@ Program
         Id: a
     Assign to: a
         Const: 4.17
+    Assign to: a
+        Op: TKN_ADD+
+            Id: b
+            Const: 2.0
     Repeat
                     If
                 Op: TKN_LTHAN<

@@ -123,12 +123,12 @@ func match(expected token_types) {
 				} else {
 					tipo = "Bool"
 				}
-				st_insert(token, token.nline, 0, 0, true, tipo, true, false, memloc)
+				st_insert(token, token.nline, 0, 0, false, tipo, true, false, memloc)
 				memloc++
 			} else {
 				l := st_lookup(token.lexema)
 				if l != nil {
-					st_insert(token, token.nline, 0, 0, true, "", true, false, memloc)
+					st_insert(token, token.nline, 0, 0, false, "", true, false, memloc)
 					memloc++
 				} else {
 					writerSymInfo.WriteString("Variable no declarada: " + token.lexema + " No. Linea: " + strconv.Itoa(token.nline) + "\n")
@@ -260,16 +260,20 @@ func factor() *TreeNode {
 		}
 		match(TKN_ID)
 	case TKN_TRUE:
-		t = newExpNode(IDK)
+		t = newExpNode(CONSTK)
 		if t != nil && token.tokenval == TKN_TRUE {
 			t.token = token
+			t.valBool, _ = strconv.ParseBool(token.lexema)
+			t.isIntType = false
 		}
 		match(TKN_TRUE)
 
 	case TKN_FALSE:
-		t = newExpNode(IDK)
+		t = newExpNode(CONSTK)
 		if t != nil && token.tokenval == TKN_FALSE {
 			t.token = token
+			t.valBool, _ = strconv.ParseBool(token.lexema)
+			t.isIntType = false
 		}
 		match(TKN_FALSE)
 

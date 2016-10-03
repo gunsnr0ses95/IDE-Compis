@@ -53,11 +53,12 @@ func inStmt(tree *TreeNode) {
 				semantico(tree.hijo[0])
 				//Linea no copiada
 				if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
-					if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) {
+					if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Bool") == 0) {
 						st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
 						memloc++
 						tree.valInt = tree.hijo[0].valInt
 						tree.valFloat = tree.hijo[0].valFloat
+						tree.valBool = tree.hijo[0].valBool
 					} else {
 						writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
 						tree.valInt = l.valI
@@ -87,13 +88,12 @@ func inExp(tree *TreeNode) {
 	switch tree.kind.exp {
 	case IDK:
 		l = st_lookup(tree.token.lexema)
-		if strings.Compare(l.tipo, "Int") == 0 {
-			tree.isIntType = true
-		} else {
-			tree.isIntType = false
-		}
-
 		if l != nil {
+			if strings.Compare(l.tipo, "Int") == 0 {
+				tree.isIntType = true
+			} else {
+				tree.isIntType = false
+			}
 			if l.haveVal {
 				//tieneVal = true ** Variable no puesta
 				if tree.isIntType {
@@ -112,7 +112,7 @@ func inExp(tree *TreeNode) {
 		p2 = tree.hijo[1]
 		semantico(p1)
 		semantico(p2)
-		if !p1.typeError || !p1.undeclaredError || !p1.typeError || !p1.undeclaredError {
+		if !p1.typeError || !p1.undeclaredError || !p2.typeError || !p2.undeclaredError {
 			if !(p1.isIntType && p2.isIntType) {
 				// tree.typeError = true
 				//Console.WriteLine("Tipos diferentes")
