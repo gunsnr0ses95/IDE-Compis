@@ -123,6 +123,8 @@ namespace Ide {
 private: System::Windows::Forms::ToolStripMenuItem^  deshacerCtrlzToolStripMenuItem;
 private: System::Windows::Forms::ToolStripMenuItem^  rehacerCtrlYToolStripMenuItem;
 private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
+private: System::Windows::Forms::TabPage^  tabPage1;
+private: System::Windows::Forms::RichTextBox^  symTabTextBox;
 
 	private: System::ComponentModel::IContainer^  components;
 
@@ -173,6 +175,8 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->codigo = (gcnew System::Windows::Forms::RichTextBox());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->fontDialog1 = (gcnew System::Windows::Forms::FontDialog());
+			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->symTabTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->tabControl1->SuspendLayout();
 			this->lexico->SuspendLayout();
 			this->sintactico->SuspendLayout();
@@ -182,6 +186,7 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->tabControl2->SuspendLayout();
 			this->errores->SuspendLayout();
 			this->resultados->SuspendLayout();
+			this->tabPage1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
@@ -189,6 +194,7 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->tabControl1->Controls->Add(this->lexico);
 			this->tabControl1->Controls->Add(this->sintactico);
 			this->tabControl1->Controls->Add(this->semantico);
+			this->tabControl1->Controls->Add(this->tabPage1);
 			this->tabControl1->Controls->Add(this->codigoIntermedio);
 			this->tabControl1->Location = System::Drawing::Point(753, 59);
 			this->tabControl1->Name = L"tabControl1";
@@ -222,6 +228,7 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->lexicoTextBox->Size = System::Drawing::Size(408, 410);
 			this->lexicoTextBox->TabIndex = 0;
 			this->lexicoTextBox->Text = L"";
+			this->lexicoTextBox->WordWrap = false;
 			// 
 			// sintactico
 			// 
@@ -272,7 +279,8 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->semanticoTextBox->ReadOnly = true;
 			this->semanticoTextBox->Size = System::Drawing::Size(425, 403);
 			this->semanticoTextBox->TabIndex = 0;
-			this->semanticoTextBox->Text = L"jaja";
+			this->semanticoTextBox->Text = L"";
+			this->semanticoTextBox->WordWrap = false;
 			// 
 			// codigoIntermedio
 			// 
@@ -296,7 +304,8 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->codigoITextBox->ReadOnly = true;
 			this->codigoITextBox->Size = System::Drawing::Size(425, 403);
 			this->codigoITextBox->TabIndex = 0;
-			this->codigoITextBox->Text = L"jejeje";
+			this->codigoITextBox->Text = L"";
+			this->codigoITextBox->WordWrap = false;
 			// 
 			// menuStrip1
 			// 
@@ -533,6 +542,29 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->codigo->TextChanged += gcnew System::EventHandler(this, &MyForm::codigo_TextChanged_1);
 			this->codigo->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::codigo_KeyDown);
 			// 
+			// tabPage1
+			// 
+			this->tabPage1->Controls->Add(this->symTabTextBox);
+			this->tabPage1->Location = System::Drawing::Point(4, 22);
+			this->tabPage1->Name = L"tabPage1";
+			this->tabPage1->Size = System::Drawing::Size(411, 406);
+			this->tabPage1->TabIndex = 4;
+			this->tabPage1->Text = L"Tabla de simbolos";
+			this->tabPage1->UseVisualStyleBackColor = true;
+			// 
+			// symTabTextBox
+			// 
+			this->symTabTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(37)), static_cast<System::Int32>(static_cast<System::Byte>(37)),
+				static_cast<System::Int32>(static_cast<System::Byte>(38)));
+			this->symTabTextBox->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(218)),
+				static_cast<System::Int32>(static_cast<System::Byte>(218)));
+			this->symTabTextBox->Location = System::Drawing::Point(-4, -7);
+			this->symTabTextBox->Name = L"symTabTextBox";
+			this->symTabTextBox->Size = System::Drawing::Size(431, 417);
+			this->symTabTextBox->TabIndex = 0;
+			this->symTabTextBox->Text = L"";
+			this->symTabTextBox->WordWrap = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -571,6 +603,7 @@ private: System::Windows::Forms::RichTextBox^  lexicoTextBox;
 			this->errores->ResumeLayout(false);
 			this->resultados->ResumeLayout(false);
 			this->resultados->PerformLayout();
+			this->tabPage1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1161,8 +1194,10 @@ private: System::Void compilarToolStripMenuItem_Click(System::Object^  sender, S
 	}
 	String^ cadena = "Analizador_Lexico.exe " + rutaAbierto;
 	String^ cadena2 = "Analizador_Sintactico.exe " + rutaAbierto;
-	System::Windows::Forms::RichTextBox^ aux = (gcnew System::Windows::Forms::RichTextBox());
-	aux->Visible = false;
+	System::Windows::Forms::RichTextBox^ sintacticoErroresTextBox = (gcnew System::Windows::Forms::RichTextBox());
+	System::Windows::Forms::RichTextBox^ symTabErroresTextBox = (gcnew System::Windows::Forms::RichTextBox());
+	sintacticoErroresTextBox->Visible = false;
+	symTabErroresTextBox->Visible = false;
 	int len = cadena->Length;
 	int len2 = cadena2->Length;
 	char p[200];
@@ -1180,12 +1215,16 @@ private: System::Void compilarToolStripMenuItem_Click(System::Object^  sender, S
 	}
 	p2[i] = '\0';
 	system(p2);
-	aux->LoadFile("sintactico_info.txt", RichTextBoxStreamType::PlainText);
+	sintacticoErroresTextBox->LoadFile("sintactico_info.txt", RichTextBoxStreamType::PlainText);
+	symTabErroresTextBox->LoadFile("tabla_simbolos_info.txt", RichTextBoxStreamType::PlainText);
 	tabControl1->SelectedTab = this->lexico;
 	lexicoTextBox->LoadFile("tokens_output.txt", RichTextBoxStreamType::PlainText);
 	erroresTextBox->LoadFile("tokens_info.txt", RichTextBoxStreamType::PlainText);
-	sintacticoTextBox->LoadFile("sintactico_output.txt", RichTextBoxStreamType::PlainText);
-	erroresTextBox->AppendText(aux->Text);
+	sintacticoErroresTextBox->LoadFile("sintactico_output.txt", RichTextBoxStreamType::PlainText);
+	symTabTextBox->LoadFile("tabla_simbolos.txt", RichTextBoxStreamType::PlainText);
+	semanticoTextBox->LoadFile("semantico_output.txt", RichTextBoxStreamType::PlainText);
+	erroresTextBox->AppendText(sintacticoErroresTextBox->Text);
+	erroresTextBox->AppendText(symTabErroresTextBox->Text);
 	
 }
 };
