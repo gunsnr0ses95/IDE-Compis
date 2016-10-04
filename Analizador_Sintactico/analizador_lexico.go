@@ -130,6 +130,7 @@ var decimal_point_flag = false
 var writer, _ = os.Create("tokens_output.txt")
 var writerE, _ = os.Create("tokens_info.txt")
 var writer2, _ = os.Create("sintactico_output.txt")
+var writer3, _ = os.Create("semantico_output.txt")
 var writerSym, _ = os.Create("tabla_simbolos.txt")
 var writerSymInfo, _ = os.Create("tabla_simbolos_info.txt")
 var buffer = ""
@@ -568,5 +569,8 @@ func main() {
 		printSymTab()
 		fmt.Println("Error aqui")
 		printTree(arbol)
+		fmt.Printf("\n\n\n\n")
+		tabno = -1
+		printTreeSemantico(arbol)
 	}
 }

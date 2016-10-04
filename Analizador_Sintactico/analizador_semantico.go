@@ -3,6 +3,7 @@ package main
 
 //variable,_ := strconv.ParseFloat("3.2",64)
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -426,5 +427,113 @@ func inExp(tree *TreeNode) {
 			}
 		} /* OpK */
 	}
+}
 
+func printTreeSemantico(tree *TreeNode) {
+	valAux := ""
+	var l *BucketListRec
+	tabno++
+	for tree != nil {
+		printTabulacion()
+		if tree.nodekind == STMTK {
+			switch tree.kind.stmt {
+			case PROGRAMA:
+				fmt.Printf("Program\n")
+				writer3.WriteString("Program\n")
+			case SELECCION:
+				fmt.Printf("If\n")
+				writer3.WriteString("If\n")
+			case REPETICION:
+				fmt.Printf("Repeat\n")
+				writer3.WriteString("Repeat\n")
+			case ASIGNACION:
+				fmt.Printf("Assign to: ")
+				//writer3.WriteString("Assign to: " + tree.token.lexema + "\n")
+				writer3.WriteString("Assign to: ")
+				l = st_lookup(tree.token.lexema)
+				if l == nil {
+					fmt.Printf("%s - Error: Variable no declarada\n", tree.token.lexema)
+					writer3.WriteString("Id: " + tree.token.lexema + " - Error: Variable no declarada\n")
+				} else {
+					switch l.tipo {
+					case "Int":
+						valAux = strconv.Itoa(tree.valInt)
+					case "Float":
+						valAux = strconv.FormatFloat(tree.valFloat, 'E', -1, 64)
+					case "Bool":
+						valAux = strconv.FormatBool(tree.valBool)
+					}
+					fmt.Printf("%s -> (%s, %s)\n", tree.token.lexema, l.tipo, valAux)
+					writer3.WriteString(tree.token.lexema + " -> (" + l.tipo + ", " + valAux + ")\n")
+				}
+			case ITERACION:
+				fmt.Printf("While\n")
+				writer3.WriteString("While\n")
+			case READ:
+				fmt.Printf("Read: %s\n", tree.token.lexema)
+				writer3.WriteString("Read: " + tree.token.lexema + "\n")
+			case WRITE:
+				fmt.Printf("Write\n")
+				writer3.WriteString("Write\n")
+			}
+		} else if tree.nodekind == EXPK {
+			switch tree.kind.exp {
+			case OPK:
+				if tree.token.tokenval == TKN_ADD || tree.token.tokenval == TKN_MINUS || tree.token.tokenval == TKN_DIVISION || tree.token.tokenval == TKN_PRODUCT {
+					if tree.isIntType {
+						fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.Itoa(tree.valInt))
+						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.Itoa(tree.valInt) + ")\n")
+					} else {
+						fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.FormatFloat(tree.valFloat, 'E', -1, 64))
+						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatFloat(tree.valFloat, 'E', -1, 64) + ")\n")
+					}
+				} else {
+					fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.FormatBool(tree.valBool))
+					writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatBool(tree.valBool) + ")\n")
+				}
+
+			case CONSTK:
+				fmt.Printf("Const: %s\n", tree.token.lexema)
+				writer3.WriteString("Const: " + tree.token.lexema + "\n")
+
+			case IDK:
+				if tree.token == nil {
+					goto salir
+				}
+				fmt.Printf("Id: ")
+				writer3.WriteString("Id: ")
+				l = st_lookup(tree.token.lexema)
+				if l == nil {
+					fmt.Printf(" - Error: Variable no declarada\n", tree.token.lexema)
+					writer3.WriteString(tree.token.lexema + " - Error: Variable no declarada\n")
+				} else {
+					switch l.tipo {
+					case "Int":
+						valAux = strconv.Itoa(tree.valInt)
+					case "Float":
+						valAux = strconv.FormatFloat(tree.valFloat, 'E', -1, 64)
+					case "Bool":
+						valAux = strconv.FormatBool(tree.valBool)
+					}
+					fmt.Printf("%s -> (%s, %s)\n", tree.token.lexema, l.tipo, valAux)
+					writer3.WriteString(tree.token.lexema + " -> (" + l.tipo + ", " + valAux + ")\n")
+				}
+				/*if tree.tipo != 0 {
+					fmt.Printf("-%s\n", tipoToString(tree.tipo))
+					writer2.WriteString("-" + tipoToString(tree.tipo) + "\n")
+				} else {
+					fmt.Println()
+					writer2.WriteString("\n")
+				}*/ //no entendi esto pero lo comento por si acaso jaja
+			}
+		} else { //falta una parte del codigo de la tipa pero no lo copie porque nosotros no tenemos ningun nodekind tipo deck
+			fmt.Printf("Unknown node kind\n")
+		}
+		for i := 0; i < 3; i++ {
+			printTreeSemantico(tree.hijo[i])
+		}
+		tree = tree.hermano
+	}
+salir:
+	tabno--
 }

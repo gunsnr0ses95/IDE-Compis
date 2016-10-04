@@ -7,22 +7,20 @@ Program
     Id: band-Bool
     Assign to: x
         Const: 0
-    Assign to: y
+    Assign to: c
         Const: 4.8
+    Assign to: x
+        Const: 5.6
+    Assign to: y
+        Op: TKN_ADD+
+            Const: 5
+            Const: 5
     Assign to: band
         Const: true
-    Assign to: a
-        Const: 3.11
-    Assign to: b
-        Const: 0
-    Assign to: z
-        Id: a
-    Assign to: a
-        Const: 4.17
-    Assign to: a
+    Write
         Op: TKN_ADD+
-            Id: b
-            Const: 2.0
+            Id: x
+            Id: c
     Repeat
                     If
                 Op: TKN_LTHAN<
@@ -35,3 +33,4 @@ Program
         Op: TKN_GETHAN>=
             Id: y
             Const: 0
+                                                                                                                                                                                                                                                                                                                                                                                                    

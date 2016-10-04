@@ -1,0 +1,35 @@
+Program
+Id: x -> (Int, 0)
+Id: y -> (Int, 0)
+Id: a -> (Float, 0E+00)
+Id: b -> (Float, 0E+00)
+Id: c -> (Float, 0E+00)
+Id: band -> (Bool, false)
+Assign to: x -> (Int, 0)
+Const: 0
+Assign to: c -> (Float, 4.8E+00)
+Const: 4.8
+Assign to: x -> (Int, 0)
+Const: 5.6
+Assign to: y -> (Int, 0)
+Op: + -> (0E+00)
+Const: 5
+Const: 5
+Assign to: band -> (Bool, true)
+Const: true
+Write
+Op: + -> (0E+00)
+Id: x -> (Int, 0)
+Id: c -> (Float, 0E+00)
+Repeat
+If
+Op: < -> (false)
+Id: x -> (Int, 0)
+Id: y -> (Int, 0)
+Assign to: y -> (Int, 0)
+Op: - -> (0E+00)
+Id: y -> (Int, 0)
+Const: 1
+Op: >= -> (true)
+Id: y -> (Int, 0)
+Const: 0

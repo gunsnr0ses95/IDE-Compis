@@ -1,3 +1,2 @@
-Variable no declarada: z No. Linea: 10
-Error: Tipos diferentes. Variables y int=0 float=4.8
-Error: Tipos diferentes. Variables b int=0 float=0
+Error: Tipos diferentes. Variables x int=0 float=5.6
+Error: Tipos diferentes. Variables y int=0 float=0

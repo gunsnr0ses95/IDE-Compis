@@ -3,13 +3,11 @@ int x, y;
 float a, b, c;
 bool band;
 x=0; // comentario 1
-y=4.8; /* comentario 2 */
-band=true;
-a = 3.11;
-b = 0;
-z = a;
-a = 4.17;
-a = b + 2.0;
+c=4.8; /* comentario 2 */
+x = 5.6;
+y = 5 + 5;
+band = true;
+write x + c;
 do {
 if(x<y) {
 y=y-1;
