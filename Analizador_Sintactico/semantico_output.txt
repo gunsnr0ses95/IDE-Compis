@@ -24,7 +24,27 @@ If
 Op: > -> (true)
 Id: z -> (Int, 5)
 Const: 3
-Assign to: z -> (Int, 0)
-Op: * -> (0E+00)
+Assign to: z -> (Int, 7)
+Op: * -> (7)
+Const: 7
+Const: 1
+Assign to: z -> (Int, 5)
+Op: * -> (5)
+Const: 5
+Const: 1
+Assign to: x -> (Float, 7.742999999999999E+01)
+Op: * -> (7.742999999999999E+01)
+Const: 8.9
+Const: 8.7
+Assign to: x -> (Float, 7.742999999999999E+01)
+Op: * -> (7.742999999999999E+01)
+Const: 8.9
+Const: 8.7
+Assign to: z -> (Int, 10)
+Op: * -> (10)
+Id: z -> (Int, 5)
+Const: 2
+Assign to: z -> (Int, 7)
+Op: * -> (7)
 Const: 7
 Const: 1

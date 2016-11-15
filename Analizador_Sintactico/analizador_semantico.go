@@ -34,11 +34,16 @@ func semantico(tree *TreeNode) {
 }
 
 func inStmt(tree *TreeNode) {
-	var p1, p2 *TreeNode
+	var p1, p2, p3 *TreeNode
 	var l *BucketListRec
 	switch tree.kind.stmt {
 	case SELECCION:
-		semantico(tree.hijo[0])
+		p1 = tree.hijo[0]
+		p2 = tree.hijo[1]
+		p3 = tree.hijo[2]
+		semantico(p1)
+		semantico(p2)
+		semantico(p3)
 	case REPETICION:
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
@@ -54,34 +59,34 @@ func inStmt(tree *TreeNode) {
 		semantico(tree.hijo[0])
 		inBlock = false
 	case ASIGNACION:
-		if !inBlock {
-			l = st_lookup(tree.token.lexema)
-			if l != nil {
-				tipoActual = l.tipo
-				semantico(tree.hijo[0])
-				//Linea no copiada
-				if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
-					if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Bool") == 0) {
-						st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
-						memloc++
-						tree.valInt = tree.hijo[0].valInt
-						tree.valFloat = tree.hijo[0].valFloat
-						tree.valBool = tree.hijo[0].valBool
+		//if !inBlock {
+		l = st_lookup(tree.token.lexema)
+		if l != nil {
+			tipoActual = l.tipo
+			semantico(tree.hijo[0])
+			//Linea no copiada
+			if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
+				if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Bool") == 0) {
+					st_insert(tree.token, tree.token.nline, tree.hijo[0].valInt, tree.hijo[0].valFloat, tree.hijo[0].valBool, l.tipo, false, true, memloc)
+					memloc++
+					tree.valInt = tree.hijo[0].valInt
+					tree.valFloat = tree.hijo[0].valFloat
+					tree.valBool = tree.hijo[0].valBool
+				} else {
+					if tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Float") == 0) {
+						tree.valFloat = float64(tree.hijo[0].valInt)
 					} else {
-						if tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Float") == 0) {
-							tree.valFloat = float64(tree.hijo[0].valInt)
-						} else {
-							writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
-							tree.valInt = l.valI
-							tree.valFloat = l.valF
-						}
+						writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
+						tree.valInt = l.valI
+						tree.valFloat = l.valF
 					}
 				}
-			} /*else {
-				tree.undeclaredError = true
-				writerSymInfo.WriteString("Variable no declarada:" + tree.token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
-			}*/
-		}
+			}
+		} /*else {
+			tree.undeclaredError = true
+			writerSymInfo.WriteString("Variable no declarada:" + tree.token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
+		}*/
+		//}
 	case READ:
 		l = st_lookup(tree.token.lexema)
 		if l != nil {
@@ -532,15 +537,8 @@ func printTreeSemantico(tree *TreeNode) {
 					fmt.Printf("%s -> (%s, %s)\n", tree.token.lexema, l.tipo, valAux)
 					writer3.WriteString(tree.token.lexema + " -> (" + l.tipo + ", " + valAux + ")\n")
 				}
-				/*if tree.tipo != 0 {
-					fmt.Printf("-%s\n", tipoToString(tree.tipo))
-					writer2.WriteString("-" + tipoToString(tree.tipo) + "\n")
-				} else {
-					fmt.Println()
-					writer2.WriteString("\n")
-				}*/ //no entendi esto pero lo comento por si acaso jaja
 			}
-		} else { //falta una parte del codigo de la tipa pero no lo copie porque nosotros no tenemos ningun nodekind tipo deck
+		} else {
 			fmt.Printf("Unknown node kind\n")
 		}
 		for i := 0; i < 3; i++ {

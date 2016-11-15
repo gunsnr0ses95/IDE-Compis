@@ -28,4 +28,24 @@ Program
                 Op: TKN_PRODUCT*
                     Const: 7
                     Const: 1
-                                                                                                                                                                                                                                                                                                                                
+            Assign to: z
+                Op: TKN_PRODUCT*
+                    Const: 5
+                    Const: 1
+            Assign to: x
+                Op: TKN_PRODUCT*
+                    Const: 8.9
+                    Const: 8.7
+                    Assign to: x
+                Op: TKN_PRODUCT*
+                    Const: 8.9
+                    Const: 8.7
+            Assign to: z
+                Op: TKN_PRODUCT*
+                    Id: z
+                    Const: 2
+    Assign to: z
+        Op: TKN_PRODUCT*
+            Const: 7
+            Const: 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
