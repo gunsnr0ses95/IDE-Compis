@@ -1,2 +1,0 @@
-Error: Tipos diferentes. Variables x int=0 float=5.6
-Error: Tipos diferentes. Variables y int=0 float=0

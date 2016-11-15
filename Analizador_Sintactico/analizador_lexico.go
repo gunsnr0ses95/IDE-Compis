@@ -1,4 +1,11 @@
-// Analizador_Lexico project main.go
+/*
+Proyecto Compiladores
+"Analizador Léxico"
+Creado por:
+  - Héctor Alan López Díaz
+  - Mónica Fabiola Montañez Briano
+ISC 7ºA
+*/
 package main
 
 import (
@@ -567,7 +574,6 @@ func main() {
 		arbol = sintactico()
 		semantico(arbol.hijo[1])
 		printSymTab()
-		fmt.Println("Error aqui")
 		printTree(arbol)
 		fmt.Printf("\n\n\n\n")
 		tabno = -1

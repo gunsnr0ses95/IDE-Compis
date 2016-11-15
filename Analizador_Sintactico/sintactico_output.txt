@@ -1,36 +1,8 @@
 Program
-    Id: x-Int
-        Id: y-Int
-    Id: a-Float
-        Id: b-Float
-            Id: c-Float
-    Id: band-Bool
+    Id: x-Float
+        Id: y-Float
     Assign to: x
-        Const: 0
-    Assign to: c
-        Const: 4.8
-    Assign to: x
-        Const: 5.6
-    Assign to: y
-        Op: TKN_ADD+
-            Const: 5
-            Const: 5
-    Assign to: band
-        Const: true
-    Write
-        Op: TKN_ADD+
-            Id: x
-            Id: c
-    Repeat
-                    If
-                Op: TKN_LTHAN<
-                    Id: x
-                    Id: y
-                                    Assign to: y
-                        Op: TKN_MINUS-
-                            Id: y
-                            Const: 1
-        Op: TKN_GETHAN>=
-            Id: y
-            Const: 0
-                                                                                                                                                                                                                                                                                                                                                                                                    
+        Op: TKN_PRODUCT*
+            Const: 5.0
+            Const: 4.0
+                                                

@@ -1,4 +1,12 @@
-// Analizador_Sintactico project main.go
+/*
+Proyecto Compiladores
+"Analizador Sintáctico"
+Creado por:
+  - Héctor Alan López Díaz
+  - Mónica Fabiola Montañez Briano
+ISC 7ºA
+*/
+
 package main
 
 import (

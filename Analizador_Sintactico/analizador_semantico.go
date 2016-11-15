@@ -1,7 +1,14 @@
-// analizador_semantico
+/*
+Proyecto Compiladores
+"Analizador Semántico"
+Creado por:
+  - Héctor Alan López Díaz
+  - Mónica Fabiola Montañez Briano
+ISC 7ºA
+*/
+
 package main
 
-//variable,_ := strconv.ParseFloat("3.2",64)
 import (
 	"fmt"
 	"strconv"
@@ -292,11 +299,12 @@ func inExp(tree *TreeNode) {
 				case TKN_PRODUCT:
 					switch p1.isIntType {
 					case true:
+						tree.isIntType = true
 						tree.valInt = tree.hijo[0].valInt * tree.hijo[1].valInt
 
 					case false:
 						tree.valFloat = tree.hijo[0].valFloat * tree.hijo[1].valFloat
-
+						fmt.Printf("Entroo")
 					}
 
 				case TKN_DIVISION:
