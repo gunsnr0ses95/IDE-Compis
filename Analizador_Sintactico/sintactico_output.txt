@@ -1,8 +1,31 @@
 Program
     Id: x-Float
         Id: y-Float
+    Id: z-Int
+    Assign to: z
+        Const: 5
     Assign to: x
         Op: TKN_PRODUCT*
-            Const: 5.0
-            Const: 4.0
-                                                
+            Const: 7.8
+            Const: 1
+    Assign to: x
+        Op: TKN_ADD+
+            Const: 5
+            Const: 7
+    Assign to: x
+        Op: TKN_ADD+
+            Op: TKN_MINUS-
+                Op: TKN_ADD+
+                    Const: 6
+                    Const: 7
+                Const: 2
+            Const: 7.6
+    If
+        Op: TKN_GTHAN>
+            Id: z
+            Const: 3
+                    Assign to: z
+                Op: TKN_PRODUCT*
+                    Const: 7
+                    Const: 1
+                                                                                                                                                                                                                                                                                                                                

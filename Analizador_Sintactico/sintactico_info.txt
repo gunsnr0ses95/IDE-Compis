@@ -1,0 +1,2 @@
+
+>>> Error sintactico en la linea 12: token inesperado -> TKN_RBRACE '}' se esperaba-> TKN_FI

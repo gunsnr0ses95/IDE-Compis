@@ -68,10 +68,13 @@ func inStmt(tree *TreeNode) {
 						tree.valFloat = tree.hijo[0].valFloat
 						tree.valBool = tree.hijo[0].valBool
 					} else {
-						writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
-						tree.valInt = l.valI
-						tree.valFloat = l.valF
-
+						if tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Float") == 0) {
+							tree.valFloat = float64(tree.hijo[0].valInt)
+						} else {
+							writerSymInfo.WriteString("Error: Tipos diferentes. Variables " + tree.token.lexema + " int=" + strconv.Itoa(l.valI) + " float=" + strconv.FormatFloat(tree.hijo[0].valFloat, 'f', -1, 64) + "\n")
+							tree.valInt = l.valI
+							tree.valFloat = l.valF
+						}
 					}
 				}
 			} /*else {
@@ -121,7 +124,7 @@ func inExp(tree *TreeNode) {
 		semantico(p1)
 		semantico(p2)
 		if !p1.typeError || !p1.undeclaredError || !p2.typeError || !p2.undeclaredError {
-			if !(p1.isIntType && p2.isIntType) {
+			if (p1.isIntType && !p2.isIntType) || (!p1.isIntType && p2.isIntType) {
 				// tree.typeError = true
 				//Console.WriteLine("Tipos diferentes")
 				tree.isIntType = false
@@ -279,6 +282,7 @@ func inExp(tree *TreeNode) {
 				case TKN_ADD:
 					switch p1.isIntType {
 					case true:
+						tree.isIntType = true
 						tree.valInt = tree.hijo[0].valInt + tree.hijo[1].valInt
 
 					case false:
@@ -289,6 +293,7 @@ func inExp(tree *TreeNode) {
 				case TKN_MINUS:
 					switch p1.isIntType {
 					case true:
+						tree.isIntType = true
 						tree.valInt = tree.hijo[0].valInt - tree.hijo[1].valInt
 
 					case false:
@@ -310,6 +315,7 @@ func inExp(tree *TreeNode) {
 				case TKN_DIVISION:
 					switch p1.isIntType {
 					case true:
+						tree.isIntType = true
 						tree.valInt = tree.hijo[0].valInt / tree.hijo[1].valInt
 
 					case false:
