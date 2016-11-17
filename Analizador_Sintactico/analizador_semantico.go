@@ -18,6 +18,8 @@ import (
 //variables Globales**************************************
 var inBlock = false
 var tipoActual = ""
+var tem = 0
+var eti = 0
 
 //********************************************************
 
@@ -38,6 +40,8 @@ func inStmt(tree *TreeNode) {
 	var l *BucketListRec
 	switch tree.kind.stmt {
 	case SELECCION:
+		tree.hermano.etiqueta = "L" + strconv.Itoa(eti)
+		eti++
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		p3 = tree.hijo[2]
@@ -45,11 +49,19 @@ func inStmt(tree *TreeNode) {
 		semantico(p2)
 		semantico(p3)
 	case REPETICION:
+		if strings.Compare(tree.etiqueta, "") == 0 {
+			tree.etiqueta = "L" + strconv.Itoa(eti)
+			eti++
+		}
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
 		semantico(p2)
 	case ITERACION:
+		if strings.Compare(tree.etiqueta, "") == 0 {
+			tree.etiqueta = "L" + strconv.Itoa(eti)
+			eti++
+		}
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
@@ -124,6 +136,8 @@ func inExp(tree *TreeNode) {
 			writerSymInfo.WriteString("Variable no declarada:" + tree.token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
 		} /* IdK */
 	case OPK:
+		tree.temporal = "T" + strconv.Itoa(tem)
+		tem++
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
@@ -151,7 +165,6 @@ func inExp(tree *TreeNode) {
 
 					case false:
 						tree.valFloat = tree.hijo[0].valFloat - float64(tree.hijo[1].valInt)
-
 					}
 
 				case TKN_PRODUCT:
@@ -171,7 +184,6 @@ func inExp(tree *TreeNode) {
 
 					case false:
 						tree.valFloat = tree.hijo[0].valFloat / float64(tree.hijo[1].valInt)
-
 					}
 
 				case TKN_LTHAN:
@@ -457,22 +469,22 @@ func printTreeSemantico(tree *TreeNode) {
 		if tree.nodekind == STMTK {
 			switch tree.kind.stmt {
 			case PROGRAMA:
-				fmt.Printf("Program\n")
-				writer3.WriteString("Program\n")
+				fmt.Printf("Program")
+				writer3.WriteString("Program")
 			case SELECCION:
-				fmt.Printf("If\n")
-				writer3.WriteString("If\n")
+				fmt.Printf("If")
+				writer3.WriteString("If")
 			case REPETICION:
-				fmt.Printf("Repeat\n")
-				writer3.WriteString("Repeat\n")
+				fmt.Printf("Repeat")
+				writer3.WriteString("Repeat")
 			case ASIGNACION:
 				fmt.Printf("Assign to: ")
 				//writer3.WriteString("Assign to: " + tree.token.lexema + "\n")
 				writer3.WriteString("Assign to: ")
 				l = st_lookup(tree.token.lexema)
 				if l == nil {
-					fmt.Printf("%s - Error: Variable no declarada\n", tree.token.lexema)
-					writer3.WriteString("Id: " + tree.token.lexema + " - Error: Variable no declarada\n")
+					fmt.Printf("%s - Error: Variable no declarada", tree.token.lexema)
+					writer3.WriteString("Id: " + tree.token.lexema + " - Error: Variable no declarada")
 				} else {
 					switch l.tipo {
 					case "Int":
@@ -482,34 +494,38 @@ func printTreeSemantico(tree *TreeNode) {
 					case "Bool":
 						valAux = strconv.FormatBool(tree.valBool)
 					}
-					fmt.Printf("%s -> (%s, %s)\n", tree.token.lexema, l.tipo, valAux)
-					writer3.WriteString(tree.token.lexema + " -> (" + l.tipo + ", " + valAux + ")\n")
+					fmt.Printf("%s -> (%s, %s)", tree.token.lexema, l.tipo, valAux)
+					writer3.WriteString(tree.token.lexema + " -> (" + l.tipo + ", " + valAux + ")")
 				}
 			case ITERACION:
-				fmt.Printf("While\n")
-				writer3.WriteString("While\n")
+				fmt.Printf("While")
+				writer3.WriteString("While")
 			case READ:
-				fmt.Printf("Read: %s\n", tree.token.lexema)
-				writer3.WriteString("Read: " + tree.token.lexema + "\n")
+				fmt.Printf("Read: %s", tree.token.lexema)
+				writer3.WriteString("Read: " + tree.token.lexema)
 			case WRITE:
-				fmt.Printf("Write\n")
-				writer3.WriteString("Write\n")
+				fmt.Printf("Write")
+				writer3.WriteString("Write")
 			}
+			fmt.Printf(" %s\n", tree.etiqueta)
+			writer3.WriteString(" " + tree.etiqueta + "\n")
 		} else if tree.nodekind == EXPK {
 			switch tree.kind.exp {
 			case OPK:
 				if tree.token.tokenval == TKN_ADD || tree.token.tokenval == TKN_MINUS || tree.token.tokenval == TKN_DIVISION || tree.token.tokenval == TKN_PRODUCT {
 					if tree.isIntType {
-						fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.Itoa(tree.valInt))
-						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.Itoa(tree.valInt) + ")\n")
+						fmt.Printf("Op: %s -> (%s)", tree.token.lexema, strconv.Itoa(tree.valInt))
+						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.Itoa(tree.valInt) + ")")
 					} else {
-						fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.FormatFloat(tree.valFloat, 'E', -1, 64))
-						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatFloat(tree.valFloat, 'E', -1, 64) + ")\n")
+						fmt.Printf("Op: %s -> (%s)", tree.token.lexema, strconv.FormatFloat(tree.valFloat, 'E', -1, 64))
+						writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatFloat(tree.valFloat, 'E', -1, 64) + ")")
 					}
 				} else {
-					fmt.Printf("Op: %s -> (%s)\n", tree.token.lexema, strconv.FormatBool(tree.valBool))
-					writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatBool(tree.valBool) + ")\n")
+					fmt.Printf("Op: %s -> (%s)", tree.token.lexema, strconv.FormatBool(tree.valBool))
+					writer3.WriteString("Op: " + tree.token.lexema + " -> (" + strconv.FormatBool(tree.valBool) + ")")
 				}
+				fmt.Printf(" %s\n", tree.temporal)
+				writer3.WriteString(" " + tree.temporal + "\n")
 
 			case CONSTK:
 				fmt.Printf("Const: %s\n", tree.token.lexema)

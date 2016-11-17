@@ -13,6 +13,11 @@ program {
     x = 8.9 * 8.7;
     z = z * 2;
   }
+  x = y;
+  while (true){
+    read y;
+    x = 5;
+  }
   z = 7 * 1;
 
 }

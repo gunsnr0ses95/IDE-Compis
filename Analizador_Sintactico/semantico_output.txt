@@ -1,50 +1,60 @@
-Program
+Program 
 Id: x -> (Float, 0E+00)
 Id: y -> (Float, 0E+00)
 Id: z -> (Int, 0)
-Assign to: z -> (Int, 5)
+Assign to: z -> (Int, 5) 
 Const: 5
-Assign to: x -> (Float, 7.8E+00)
-Op: * -> (7.8E+00)
+Assign to: x -> (Float, 7.8E+00) 
+Op: * -> (7.8E+00) T0
 Const: 7.8
 Const: 1
-Assign to: x -> (Float, 1.2E+01)
-Op: + -> (12)
+Assign to: x -> (Float, 1.2E+01) 
+Op: + -> (12) T1
 Const: 5
 Const: 7
-Assign to: x -> (Float, 1.86E+01)
-Op: + -> (1.86E+01)
-Op: - -> (11)
-Op: + -> (13)
+Assign to: x -> (Float, 1.86E+01) 
+Op: + -> (1.86E+01) T2
+Op: - -> (11) T3
+Op: + -> (13) T4
 Const: 6
 Const: 7
 Const: 2
 Const: 7.6
-If
-Op: > -> (true)
+If 
+Op: > -> (true) T5
 Id: z -> (Int, 5)
 Const: 3
-Assign to: z -> (Int, 7)
-Op: * -> (7)
+ 
+Assign to: z -> (Int, 7) 
+Op: * -> (7) T6
 Const: 7
 Const: 1
-Assign to: z -> (Int, 5)
-Op: * -> (5)
+Assign to: z -> (Int, 5) 
+Op: * -> (5) T7
 Const: 5
 Const: 1
-Assign to: x -> (Float, 7.742999999999999E+01)
-Op: * -> (7.742999999999999E+01)
+Assign to: x -> (Float, 7.742999999999999E+01) 
+Op: * -> (7.742999999999999E+01) T8
 Const: 8.9
 Const: 8.7
-Assign to: x -> (Float, 7.742999999999999E+01)
-Op: * -> (7.742999999999999E+01)
+ 
+Assign to: x -> (Float, 7.742999999999999E+01) 
+Op: * -> (7.742999999999999E+01) T9
 Const: 8.9
 Const: 8.7
-Assign to: z -> (Int, 10)
-Op: * -> (10)
+Assign to: z -> (Int, 10) 
+Op: * -> (10) T10
 Id: z -> (Int, 5)
 Const: 2
-Assign to: z -> (Int, 7)
-Op: * -> (7)
+Assign to: x -> (Float, 0E+00) L0
+Id: y -> (Float, 0E+00)
+While L1
+Const: true
+ 
+Read: y 
+Assign to: x -> (Float, 5E+00) 
+Const: 5
+Assign to: z -> (Int, 7) 
+Op: * -> (7) T11
 Const: 7
 Const: 1

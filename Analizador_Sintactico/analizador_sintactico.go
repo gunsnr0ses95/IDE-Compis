@@ -76,6 +76,8 @@ type TreeNode struct {
 	typeError       bool
 	undeclaredError bool
 	isIntType       bool
+	etiqueta        string
+	temporal        string
 }
 
 func newStmtNode(kind stmtKind) *TreeNode {

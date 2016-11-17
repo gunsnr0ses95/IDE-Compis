@@ -44,8 +44,15 @@ Program
                 Op: TKN_PRODUCT*
                     Id: z
                     Const: 2
+    Assign to: x
+        Id: y
+    While
+        Const: true
+                    Read: y
+            Assign to: x
+                Const: 5
     Assign to: z
         Op: TKN_PRODUCT*
             Const: 7
             Const: 1
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
