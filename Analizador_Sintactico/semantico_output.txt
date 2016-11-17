@@ -48,3 +48,19 @@ Assign to: z -> (Int, 10)
 Op: * -> (10) T10
 Id: z -> (Int, 5)
 Const: 2
+Assign to: x -> (Float, 2E+00) L0
+Op: + -> (2E+00) T11
+Id: y -> (Float, 0E+00)
+Const: 2
+Write 
+Id: z -> (Int, 0)
+While L1
+Const: true
+ 
+Read: y 
+Assign to: x -> (Float, 5E+00) 
+Const: 5
+Assign to: z -> (Int, 7) L3
+Op: * -> (7) T12
+Const: 7
+Const: 1

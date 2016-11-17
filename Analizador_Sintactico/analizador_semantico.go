@@ -91,11 +91,21 @@ func inStmt(tree *TreeNode) {
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
-		genCuadruplos(tree.hijo[0].token.lexema, tree.hijo[0].hijo[0].token.lexema, tree.hijo[0].hijo[1].token.lexema, tree.hijo[0].temporal)
-		genCuadruplos("if_false", tree.hijo[0].temporal, salvador, "_")
+		if tree.hijo[0].kind.exp == CONSTK {
+			genCuadruplos("if_false", tree.hijo[0].token.lexema, salvador, "_")
+
+		} else {
+			genCuadruplos(tree.hijo[0].token.lexema, tree.hijo[0].hijo[0].token.lexema, tree.hijo[0].hijo[1].token.lexema, tree.hijo[0].temporal)
+			genCuadruplos("if_false", tree.hijo[0].temporal, salvador, "_")
+		}
 		semantico(p2)
 		genCuadruplos("label", salvador, "_", "_")
-		genCuadruplos("if_true", tree.hijo[0].temporal, tree.etiqueta, "_")
+		if tree.hijo[0].kind.exp == CONSTK {
+			genCuadruplos("if_true", tree.hijo[0].token.lexema, tree.etiqueta, "_")
+		} else {
+			genCuadruplos("if_true", tree.hijo[0].temporal, tree.etiqueta, "_")
+		}
+
 	case BLOQUE:
 		inBlock = true
 		semantico(tree.hijo[0])

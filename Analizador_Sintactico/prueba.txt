@@ -15,12 +15,12 @@ write z;
     z = z * 2;
   }
 fi
- /* x = y +2;
-//write z;
-  while (x>5){
+ x = y +2;
+write z;
+  while (true){
     read y;
     x = 5;
   }
-  z = 7 * 1;*/
+  z = 7 * 1;
 
 }
