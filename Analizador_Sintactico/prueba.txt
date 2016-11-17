@@ -1,6 +1,7 @@
 program {
   float x, y;
   int z;
+write z;
   z = 5;
   x = 7.8 * 1;
   x = 5 + 7;
@@ -13,11 +14,13 @@ program {
     x = 8.9 * 8.7;
     z = z * 2;
   }
-  x = y;
-  while (true){
+fi
+ /* x = y +2;
+//write z;
+  while (x>5){
     read y;
     x = 5;
   }
-  z = 7 * 1;
+  z = 7 * 1;*/
 
 }

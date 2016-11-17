@@ -2,6 +2,8 @@ Program
     Id: x-Float
         Id: y-Float
     Id: z-Int
+    Write
+        Id: z
     Assign to: z
         Const: 5
     Assign to: x
@@ -44,15 +46,4 @@ Program
                 Op: TKN_PRODUCT*
                     Id: z
                     Const: 2
-    Assign to: x
-        Id: y
-    While
-        Const: true
-                    Read: y
-            Assign to: x
-                Const: 5
-    Assign to: z
-        Op: TKN_PRODUCT*
-            Const: 7
-            Const: 1
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

@@ -20,6 +20,7 @@ var inBlock = false
 var tipoActual = ""
 var tem = 0
 var eti = 0
+var salvador = ""
 
 //********************************************************
 
@@ -40,32 +41,61 @@ func inStmt(tree *TreeNode) {
 	var l *BucketListRec
 	switch tree.kind.stmt {
 	case SELECCION:
-		tree.hermano.etiqueta = "L" + strconv.Itoa(eti)
+		if tree.hermano == nil {
+			salvador = "L" + strconv.Itoa(eti)
+		} else {
+			tree.hermano.etiqueta = "L" + strconv.Itoa(eti)
+			salvador = tree.hermano.etiqueta
+		}
 		eti++
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		p3 = tree.hijo[2]
 		semantico(p1)
+		genCuadruplos(tree.hijo[0].token.lexema, tree.hijo[0].hijo[0].token.lexema, tree.hijo[0].hijo[1].token.lexema, tree.hijo[0].temporal)
+		genCuadruplos("if_false", tree.hijo[0].temporal, salvador, "_")
 		semantico(p2)
 		semantico(p3)
+		genCuadruplos("label", salvador, "_", "_")
+
 	case REPETICION:
 		if strings.Compare(tree.etiqueta, "") == 0 {
 			tree.etiqueta = "L" + strconv.Itoa(eti)
 			eti++
 		}
+		genCuadruplos("label", tree.etiqueta, "_", "_")
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
 		semantico(p2)
+		genCuadruplos(tree.hijo[1].token.lexema, tree.hijo[1].hijo[0].token.lexema, tree.hijo[1].hijo[1].token.lexema, tree.hijo[1].temporal)
+		genCuadruplos("if_false", tree.hijo[1].temporal, tree.etiqueta, "_")
+
 	case ITERACION:
+
 		if strings.Compare(tree.etiqueta, "") == 0 {
 			tree.etiqueta = "L" + strconv.Itoa(eti)
 			eti++
 		}
+		if strings.Compare(tree.hermano.etiqueta, "") == 0 {
+			tree.hermano.etiqueta = "L" + strconv.Itoa(eti)
+			eti++
+		}
+		if tree.hermano == nil {
+			salvador = "L" + strconv.Itoa(eti)
+		} else {
+			tree.hermano.etiqueta = "L" + strconv.Itoa(eti)
+			salvador = tree.hermano.etiqueta
+		}
+		genCuadruplos("label", tree.etiqueta, "_", "_")
 		p1 = tree.hijo[0]
 		p2 = tree.hijo[1]
 		semantico(p1)
+		genCuadruplos(tree.hijo[0].token.lexema, tree.hijo[0].hijo[0].token.lexema, tree.hijo[0].hijo[1].token.lexema, tree.hijo[0].temporal)
+		genCuadruplos("if_false", tree.hijo[0].temporal, salvador, "_")
 		semantico(p2)
+		genCuadruplos("label", salvador, "_", "_")
+		genCuadruplos("if_true", tree.hijo[0].temporal, tree.etiqueta, "_")
 	case BLOQUE:
 		inBlock = true
 		semantico(tree.hijo[0])
@@ -76,6 +106,12 @@ func inStmt(tree *TreeNode) {
 		if l != nil {
 			tipoActual = l.tipo
 			semantico(tree.hijo[0])
+			if strings.Compare(tree.hijo[0].temporal, "") == 0 {
+				genCuadruplos("assing", tree.hijo[0].token.lexema, tree.token.lexema, "_")
+			} else {
+				genCuadruplos("assing", tree.hijo[0].temporal, tree.token.lexema, "_")
+			}
+
 			//Linea no copiada
 			if !tree.hijo[0].typeError || !tree.hijo[0].undeclaredError {
 				if (tree.hijo[0].isIntType && (strings.Compare(l.tipo, "Int") == 0)) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Float") == 0) || (!tree.hijo[0].isIntType && strings.Compare(l.tipo, "Bool") == 0) {
@@ -108,6 +144,14 @@ func inStmt(tree *TreeNode) {
 		} else {
 			writerSymInfo.WriteString("Variable no declarada:" + tree.token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
 		}
+		genCuadruplos("read", tree.token.lexema, "_", "_")
+
+	case WRITE:
+		l = st_lookup(tree.hijo[0].token.lexema)
+		if l == nil {
+			writerSymInfo.WriteString("Variable no declarada:" + tree.hijo[0].token.lexema + " No. Linea: " + strconv.Itoa(tree.token.nline) + "\n")
+		}
+		genCuadruplos("write", tree.hijo[0].token.lexema, "_", "_")
 	}
 }
 func inExp(tree *TreeNode) {
@@ -142,6 +186,14 @@ func inExp(tree *TreeNode) {
 		p2 = tree.hijo[1]
 		semantico(p1)
 		semantico(p2)
+		if tree.token.tokenval == TKN_ADD || tree.token.tokenval == TKN_MINUS || tree.token.tokenval == TKN_DIVISION || tree.token.tokenval == TKN_PRODUCT {
+
+			if strings.Compare(tree.hijo[0].temporal, "") == 0 {
+				genCuadruplos(tree.token.lexema, tree.hijo[0].token.lexema, tree.hijo[1].token.lexema, tree.temporal)
+			} else {
+				genCuadruplos(tree.token.lexema, tree.hijo[0].temporal, tree.hijo[1].token.lexema, tree.temporal)
+			}
+		}
 		if !p1.typeError || !p1.undeclaredError || !p2.typeError || !p2.undeclaredError {
 			if (p1.isIntType && !p2.isIntType) || (!p1.isIntType && p2.isIntType) {
 				// tree.typeError = true
@@ -326,7 +378,6 @@ func inExp(tree *TreeNode) {
 
 					case false:
 						tree.valFloat = tree.hijo[0].valFloat * tree.hijo[1].valFloat
-						fmt.Printf("Entroo")
 					}
 
 				case TKN_DIVISION:
@@ -564,4 +615,9 @@ func printTreeSemantico(tree *TreeNode) {
 	}
 salir:
 	tabno--
+}
+
+func genCuadruplos(d1, d2, d3, d4 string) {
+	writerCuad.WriteString("(" + d1 + "," + d2 + "," + d3 + "," + d4 + ")\n")
+
 }

@@ -2,6 +2,8 @@ Program
 Id: x -> (Float, 0E+00)
 Id: y -> (Float, 0E+00)
 Id: z -> (Int, 0)
+Write 
+Id: z -> (Int, 0)
 Assign to: z -> (Int, 5) 
 Const: 5
 Assign to: x -> (Float, 7.8E+00) 
@@ -46,15 +48,3 @@ Assign to: z -> (Int, 10)
 Op: * -> (10) T10
 Id: z -> (Int, 5)
 Const: 2
-Assign to: x -> (Float, 0E+00) L0
-Id: y -> (Float, 0E+00)
-While L1
-Const: true
- 
-Read: y 
-Assign to: x -> (Float, 5E+00) 
-Const: 5
-Assign to: z -> (Int, 7) 
-Op: * -> (7) T11
-Const: 7
-Const: 1

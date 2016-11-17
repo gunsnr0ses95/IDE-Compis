@@ -1,2 +1,0 @@
-
->>> Error sintactico en la linea 16: token inesperado -> TKN_ID 'x' se esperaba-> TKN_FI
